@@ -1,4 +1,6 @@
-CSRC	= main.c
+#CSRC	= main.c
+CSRC	= main-exkbd_w.c
+#CSRC	= main-change_to_font_w.c
 ASRC	=
 
 PROJECT	= c4ij
@@ -10,7 +12,8 @@ OBJCOPY = arm-none-eabi-objcopy
 OBJDUMP = arm-none-eabi-objdump
 SIZE    = arm-none-eabi-size
 NM      = arm-none-eabi-nm
-BIN2BAS = ./bin2bas # default 0x700
+#BIN2BAS = ./bin2bas # default 0x700
+BIN2BAS = ./bin2bas --nolineno --startaddress 4096
 BAS2BIN = ./bas2bin
 #BIN2BAS = ./bin2bas --startaddress 2048 # 0x800 for expcg
 #BIN2BAS = ./bin2bas --nolineno --startaddress 3328 # 0xd00 for exchg
