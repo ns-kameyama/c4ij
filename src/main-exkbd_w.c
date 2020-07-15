@@ -11,37 +11,37 @@ int main(int param, int ram, int rom, int (*divfunc)()) {
 
 	// PS/2キーボードマップ変更
 	disable_irq();
-	const int sec7 = 7; // last sector of IchigoJam OS
+	const int sec6 = 6; // last sector of IchigoJam OS
 	const int sec13 = 13;
-	
+
 	// erase buffer
 	flash_prepare(sec13, sec13);
 	flash_erase(sec13, sec13);
 
-	// copy sec7 + newps2map -> sec
+	// copy sec6 + newps2map -> sec
 	for (int i = 0; i < 16; i++) {
 
-		if (i == 5) { 
+		if (i == 6) {
 			memcpy(buf, (uint8_t*)(ram + 0x1100), 0x100);
-    } else if (i == 6) {
+    } else if (i == 7) {
 			memcpy(buf, (uint8_t*)(ram + 0x1200), 0x100);
 		} else {
-			memcpy(buf, (uint8_t*)(sec7 * 0x1000 + 0x100 * i), 0x100);
+			memcpy(buf, (uint8_t*)(sec6 * 0x1000 + 0x100 * i), 0x100);
 		}
 
 		flash_prepare(sec13, sec13);
 		flash_copyRAMtoFlash((uint8_t*)(sec13 * 0x1000 + 0x100 * i), buf, 0x100); // 256byteずつ
 	}
 
-	// erase sector7
-	flash_prepare(sec7, sec7);
-	flash_erase(sec7, sec7);
+	// erase sector6
+	flash_prepare(sec6, sec6);
+	flash_erase(sec6, sec6);
 
-	// copy sec -> sector7
+	// copy sec -> sector6
 	for (int i = 0; i < 16; i++) {
 		memcpy(buf, (void*)(sec13 * 0x1000 + 0x100 * i), 0x100);
-		flash_prepare(sec7, sec7);
-		flash_copyRAMtoFlash((uint8_t*)(sec7 * 0x1000 + 0x100 * i), buf, 0x100); // 256byteずつ
+		flash_prepare(sec6, sec6);
+		flash_copyRAMtoFlash((uint8_t*)(sec6 * 0x1000 + 0x100 * i), buf, 0x100); // 256byteずつ
 	}
 
 	// erase sec
